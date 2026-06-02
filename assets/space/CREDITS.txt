@@ -1,0 +1,13 @@
+AstroHealth — Window Background Image Credits
+All images are NASA / public domain, sourced via Wikimedia Commons.
+
+earth_orbit.jpg   - "The Earth seen from Apollo 17" (The Blue Marble), NASA, public domain
+earthrise.jpg     - "Earthrise" Apollo 8, William Anders / NASA, public domain
+full_moon.jpg     - "Full Moon" by Gregory H. Revera, CC BY-SA 3.0
+moon_surface.jpg  - "Apollo 17 Cernan on the Moon", NASA, public domain
+the_sun.jpg       - "The Sun" NASA Solar Dynamics Observatory (AIA), public domain
+carina_nebula.jpg - "Carina Nebula" NASA/ESA Hubble, public domain
+deep_field.jpg    - "Hubble Ultra Deep Field" NASA/ESA, public domain
+mars.jpg          - "Mars - Valles Marineris" NASA/Viking, public domain
+
+Processed (cropped to 16:9, compressed) for the AstroHealth project.

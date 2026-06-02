@@ -255,6 +255,19 @@ The dashboard uses `script.js` to load data in this order:
 
 This keeps the dashboard working during presentations even if Apache or PHP has a temporary issue.
 
+## Demo Guide
+
+For a clear presentation flow, click these mission phases in order:
+
+1. **Earth Baseline** - Start with Adam's normal health profile and green body-zone state.
+2. **Launch Stress** - Show cardiovascular strain, serious alert status, and breathing-support recommendations.
+3. **Exercise Neglect** - Explain microgravity countermeasure failure and bone-density risk in pelvis/legs.
+4. **Solar Radiation Storm** - Demonstrate emergency status, radiation response, and head/chest highlighting.
+5. **Mental Health Isolation** - Show psychological risk, chatbot support tone, and head-zone highlighting.
+6. **Landing Preparation** - Close with re-entry readiness, balance/lower-body risk, and recovery planning.
+
+Suggested presentation note: watch the API status label while clicking. `PHP + MySQL` means the phase response came from MySQL. `JSON Fallback` means the dashboard is safely using JSON data. `Demo Mode` means the local fallback keeps the demo running if the API is unavailable.
+
 ## Future Taqwa AI Integration
 
 `api/risk_predict.php` and `api/chatbot.php` are prepared for future real AI integration.

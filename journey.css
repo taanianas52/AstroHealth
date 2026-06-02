@@ -1,0 +1,278 @@
+/* ============================================================
+   JOURNEY MODE — window scenes, decision console, endings, FX
+   Loaded after cockpit.css.
+   ============================================================ */
+
+/* ---- Window background scenes (crossfade + approach zoom) ---- */
+.window-bg {
+    position: absolute;
+    z-index: 2;
+    top: 4%;
+    left: 13%;
+    width: 74%;
+    height: 34%;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform-origin: 50% 50%;
+    transition: opacity 1100ms ease;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(ellipse 78% 90% at 50% 50%, #000 60%, transparent 100%);
+    mask-image: radial-gradient(ellipse 78% 90% at 50% 50%, #000 60%, transparent 100%);
+}
+.window-bg.show { opacity: 1; }
+.window-bg.approach { animation: approachZoom 7s ease-in forwards; }
+@keyframes approachZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.55); }
+}
+
+/* ---- Top bar metrics ---- */
+.top-metric { display: flex; flex-direction: column; justify-content: center; min-width: 96px; }
+.top-metric strong { color: #eaf6ff; font-size: 0.92rem; font-weight: 700; }
+.route-track { margin-top: 5px; width: 100%; max-width: 150px; height: 5px; border-radius: 999px; background: rgba(120,200,255,0.18); overflow: hidden; }
+.route-track span { display: block; width: 0%; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #4aa8ff, #aee0ff); transition: width 900ms cubic-bezier(0.65,0,0.35,1); box-shadow: 0 0 8px rgba(80,180,255,0.6); }
+.odds-good { color: #5fe0a0 !important; }
+.odds-mid { color: #e6c75a !important; }
+.odds-bad { color: #ff6b76 !important; }
+
+.icon-btn {
+    width: 32px; height: 32px; display: inline-grid; place-items: center;
+    border: 1px solid rgba(120,200,255,0.3); border-radius: 7px; cursor: pointer;
+    color: #cfe8ff; background: rgba(4,12,26,0.5); font-size: 0.95rem;
+    transition: background 150ms ease, border-color 150ms ease, transform 120ms ease;
+}
+.icon-btn:hover { background: rgba(40,110,180,0.4); border-color: rgba(120,200,255,0.6); transform: translateY(-1px); }
+
+/* ---- Reposition console screens to clear the decision deck ---- */
+.hud-left, .hud-right { max-height: 56%; }
+.hud-center { bottom: 31%; width: 17%; min-width: 188px; }
+.cockpit .body-schematic { max-height: 22vh; }
+.hud-chart { bottom: 31%; left: 27.5%; width: 16%; }
+.hud-ecg { bottom: 31%; right: 27.5%; width: 16%; }
+
+/* ---- Decision console (bottom) ---- */
+.hud-console {
+    bottom: 1.4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 62%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 8px;
+    padding: 10px 14px;
+    max-height: 25%;
+}
+.console-narrative { min-height: 0; }
+.console-narrative p {
+    margin: 3px 0 0;
+    color: #dcefff;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    max-height: 3.4em;
+    overflow: hidden;
+}
+.console-choices {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    min-height: 0;
+}
+.choice-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 7px;
+    min-width: 0;
+    padding: 9px 11px;
+    text-align: left;
+    cursor: pointer;
+    color: #dcefff;
+    border: 1px solid rgba(120,200,255,0.28);
+    border-radius: 7px;
+    background: linear-gradient(180deg, rgba(12,28,52,0.85), rgba(6,16,32,0.9));
+    font: inherit;
+    transition: border-color 150ms ease, background 150ms ease, transform 120ms ease, box-shadow 150ms ease;
+}
+.choice-btn:hover {
+    border-color: rgba(120,200,255,0.7);
+    background: linear-gradient(180deg, rgba(24,52,92,0.9), rgba(10,24,46,0.95));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(20,80,150,0.35);
+}
+.choice-btn.recommended { border-color: rgba(95,224,160,0.6); box-shadow: inset 0 0 0 1px rgba(95,224,160,0.25); }
+.choice-main { display: block; min-width: 0; }
+.choice-label { display: block; color: #f2fbff; font-size: 0.82rem; font-weight: 700; line-height: 1.2; }
+.rec-tag {
+    display: inline-block; margin-left: 6px; padding: 1px 5px; border-radius: 4px;
+    font-size: 0.54rem; font-style: normal; letter-spacing: 0.06em; color: #04140c;
+    background: #5fe0a0; vertical-align: middle;
+}
+.choice-ai { display: block; margin-top: 3px; color: #95bcdd; font-size: 0.68rem; line-height: 1.3; }
+.choice-odds { display: grid; gap: 3px; }
+.odds-num { font-size: 1.05rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.odds-bar { height: 4px; border-radius: 999px; background: rgba(255,255,255,0.12); overflow: hidden; }
+.odds-bar i { display: block; height: 100%; border-radius: 999px; background: currentColor; }
+.choice-odds.odds-good .odds-bar i { background: #5fe0a0; }
+.choice-odds.odds-mid .odds-bar i { background: #e6c75a; }
+.choice-odds.odds-bad .odds-bar i { background: #ff6b76; }
+.odds-cap { font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7f9bb5; }
+
+/* ---- Screen FX: flash + shake ---- */
+.fx-flash {
+    position: absolute; inset: 0; z-index: 8; pointer-events: none; opacity: 0; background: #fff;
+}
+.fx-flash.boom { animation: boomFlash 1100ms ease-out forwards; background: radial-gradient(circle at 50% 55%, #fff, #ffd27f 25%, #ff5a3c 50%, transparent 75%); }
+.fx-flash.warn { animation: warnFlash 700ms ease-out 2 alternate; background: rgba(216,77,87,0.5); }
+@keyframes boomFlash {
+    0% { opacity: 0; transform: scale(0.6); }
+    12% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 0; transform: scale(1.3); }
+}
+@keyframes warnFlash { from { opacity: 0; } to { opacity: 0.7; } }
+
+.cockpit.shake { animation: shakeFx 0.85s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shakeFx {
+    10%, 90% { transform: translate(-2px, 1px); }
+    20%, 80% { transform: translate(4px, -2px); }
+    30%, 50%, 70% { transform: translate(-7px, 3px); }
+    40%, 60% { transform: translate(7px, -3px); }
+}
+
+/* ---- Game over / ending overlay ---- */
+.game-over {
+    position: absolute; inset: 0; z-index: 10;
+    display: grid; place-items: center;
+    background: rgba(2,4,10,0.72);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    opacity: 0; transition: opacity 300ms ease;
+}
+.game-over[hidden] { display: none !important; }
+.game-over.show { opacity: 1; }
+.go-card {
+    width: min(520px, 90%); padding: 26px 28px; text-align: center;
+    border: 1px solid rgba(120,200,255,0.4); border-radius: 14px;
+    background: linear-gradient(180deg, rgba(12,26,48,0.96), rgba(5,12,26,0.98));
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 0 40px rgba(20,70,130,0.25);
+    transform: translateY(14px) scale(0.98); transition: transform 350ms cubic-bezier(0.2,1,0.3,1);
+}
+.game-over.show .go-card { transform: translateY(0) scale(1); }
+.go-card[data-type="win"] { border-color: rgba(95,224,160,0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 0 50px rgba(40,160,100,0.3); }
+.go-card[data-type="explode"], .go-card[data-type="death"] { border-color: rgba(255,107,118,0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 0 50px rgba(180,40,50,0.3); }
+.go-eyebrow { display: block; color: #6fd0ff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.go-card[data-type="win"] .go-eyebrow { color: #5fe0a0; }
+.go-card[data-type="explode"] .go-eyebrow, .go-card[data-type="death"] .go-eyebrow { color: #ff6b76; }
+.go-card h2 { margin: 8px 0 12px; font-size: 1.9rem; color: #f4fbff; }
+.go-card > p { margin: 0 auto 18px; max-width: 44ch; color: #cfe3f5; font-size: 0.95rem; line-height: 1.6; }
+.go-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.go-stats div { padding: 10px; border: 1px solid rgba(120,200,255,0.2); border-radius: 8px; background: rgba(5,14,28,0.6); }
+.go-stats span { display: block; color: #8fb6d8; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
+.go-stats strong { display: block; margin-top: 4px; color: #f2fbff; font-size: 0.95rem; }
+.go-restart { font-size: 0.9rem; padding: 11px 22px; }
+
+@media (max-width: 1100px) {
+    .hud-chart, .hud-ecg { display: none; }
+    .hud-console { width: 92%; }
+    .hud-center { bottom: 33%; }
+}
+
+/* ---- Mode toggle + explainer deck ---- */
+.mode-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px;
+    border: 1px solid rgba(120,200,255,0.4); border-radius: 999px;
+    background: rgba(40,110,180,0.22); color: #eaf6ff; font: inherit; font-size: 0.74rem;
+    font-weight: 700; cursor: pointer; white-space: nowrap;
+    transition: background 150ms ease, transform 120ms ease, box-shadow 150ms ease;
+}
+.mode-btn:hover { background: rgba(60,150,230,0.42); transform: translateY(-1px); box-shadow: 0 0 14px rgba(80,180,255,0.35); }
+.mode-btn.explainer-active { border-color: rgba(95,224,160,0.6); background: rgba(40,160,100,0.3); }
+
+.hud-console[hidden], .hud-deck[hidden] { display: none !important; }
+.hud-deck { display: flex; flex-direction: column; gap: 7px; }
+.deck-title { text-align: center; }
+
+/* ---- Full-scene cockpit frames (pre-launch pad / moon surface) ---- */
+.cockpit.full-scene .window-bg,
+.cockpit.full-scene .window-space,
+.cockpit.full-scene .window-glow { opacity: 0 !important; }
+
+/* ---- Launch shake ---- */
+.cockpit.launch-shake { animation: launchShake 0.28s linear infinite; }
+@keyframes launchShake {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-3px, 2px); }
+    40% { transform: translate(3px, -2px); }
+    60% { transform: translate(-2px, -3px); }
+    80% { transform: translate(2px, 3px); }
+    100% { transform: translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cockpit.launch-shake { animation: none; }
+}
+
+/* ---- AI toggle active ---- */
+.mode-btn.ai-active { border-color: rgba(95,224,160,0.6); background: rgba(40,160,100,0.3); }
+
+.hud-right[hidden] { display: none !important; }
+
+/* ============================================================
+   INTRO SCREEN — looping cockpit video + Start Mission
+   ============================================================ */
+.intro {
+    position: fixed; inset: 0; z-index: 50;
+    display: grid; place-items: center; text-align: center;
+    overflow: hidden; background: #02040a;
+    opacity: 1; transition: opacity 700ms ease;
+}
+.intro.hide { opacity: 0; pointer-events: none; }
+.intro-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0;
+}
+.intro-scrim {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+        radial-gradient(ellipse 70% 70% at 50% 45%, transparent 30%, rgba(2,4,10,0.78) 100%),
+        linear-gradient(180deg, rgba(2,4,10,0.55), rgba(2,4,10,0.2) 40%, rgba(2,4,10,0.85));
+}
+.intro-content {
+    position: relative; z-index: 2; max-width: 640px; padding: 24px;
+    animation: introRise 900ms cubic-bezier(0.2,1,0.3,1) both;
+}
+@keyframes introRise { from { opacity: 0; transform: translateY(18px); } }
+.intro-eyebrow {
+    margin: 0 0 10px; color: #6fd0ff; font-size: 0.82rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; text-shadow: 0 0 12px rgba(80,180,255,0.6);
+}
+.intro-title {
+    margin: 0 0 16px; font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1; font-weight: 800;
+    color: #f4fbff; letter-spacing: 0.01em; text-shadow: 0 0 30px rgba(80,180,255,0.4);
+}
+.intro-sub {
+    margin: 0 auto 28px; max-width: 30em; color: #cfe3f5; font-size: 1.02rem; line-height: 1.6;
+}
+.intro-btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 16px 38px;
+    border: 1px solid rgba(111,208,255,0.6); border-radius: 999px;
+    background: linear-gradient(180deg, rgba(74,168,255,0.35), rgba(40,95,134,0.3));
+    color: #f4fbff; font: inherit; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.02em;
+    cursor: pointer; box-shadow: 0 0 30px rgba(80,180,255,0.35);
+    transition: transform 150ms ease, box-shadow 200ms ease, background 200ms ease;
+    animation: introPulse 2.4s ease-in-out infinite;
+}
+.intro-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: linear-gradient(180deg, rgba(94,188,255,0.5), rgba(50,115,164,0.4));
+    box-shadow: 0 0 44px rgba(80,180,255,0.6);
+}
+@keyframes introPulse {
+    0%, 100% { box-shadow: 0 0 26px rgba(80,180,255,0.3); }
+    50% { box-shadow: 0 0 46px rgba(80,180,255,0.6); }
+}
+.intro-hint { margin: 22px 0 0; color: #8fb6d8; font-size: 0.82rem; }
+@media (prefers-reduced-motion: reduce) {
+    .intro-btn { animation: none; }
+    .intro-content { animation: none; }
+}

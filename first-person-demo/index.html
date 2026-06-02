@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroHealth First-Person Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="helmet-demo" id="helmetDemo">
+        <div id="threeScene" aria-hidden="true"></div>
+        <canvas id="spaceScene" aria-label="First-person spacecraft view"></canvas>
+
+        <div class="cockpit-depth" aria-hidden="true">
+            <div class="window-frame">
+                <span class="frame-top"></span>
+                <span class="frame-bottom"></span>
+                <span class="frame-left"></span>
+                <span class="frame-right"></span>
+                <span class="frame-center"></span>
+            </div>
+            <span class="perspective-line line-left-a"></span>
+            <span class="perspective-line line-left-b"></span>
+            <span class="perspective-line line-right-a"></span>
+            <span class="perspective-line line-right-b"></span>
+            <div class="side-panel left-panel">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="side-panel right-panel">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="seat-perspective">
+                <div class="seat-back"></div>
+                <div class="seat-cushion"></div>
+            </div>
+            <div class="left-armrest">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="right-armrest">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="front-instrument-deck">
+                <div class="instrument-screen primary-screen">
+                    <i></i><i></i><i></i>
+                </div>
+                <div class="instrument-screen attitude-screen"></div>
+                <div class="switch-bank">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="console-foreground">
+                <div class="console-screen left-console"></div>
+                <div class="center-controls">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="console-screen right-console"></div>
+            </div>
+            <div class="helmet-cheek left-cheek"></div>
+            <div class="helmet-cheek right-cheek"></div>
+            <div class="helmet-chin"></div>
+            <div class="glass-reflection"></div>
+        </div>
+
+        <div class="visor-overlay" aria-hidden="true"></div>
+        <div class="helmet-rim" aria-hidden="true"></div>
+        <div class="warning-flash" id="warningFlash" aria-hidden="true"></div>
+
+        <section class="hud-layer" aria-label="AstroHealth first-person mission presentation">
+            <header class="top-hud">
+                <div>
+                    <p class="eyebrow">AstroHealth POV Prototype</p>
+                    <h1>Adam Helmet View</h1>
+                </div>
+                <div class="phase-readout">
+                    <span id="phaseLevel">Serious</span>
+                    <strong id="phaseTitle">Launch Stress</strong>
+                </div>
+                <label class="safe-mode-toggle" title="Disable the optional 3D layer for older projectors or slower laptops.">
+                    <input type="checkbox" id="safeModeToggle">
+                    <span>Performance Safe Mode</span>
+                </label>
+            </header>
+
+            <aside class="left-hud panel">
+                <p class="eyebrow">Mission Phase</p>
+                <div class="phase-buttons" id="phaseButtons" aria-label="Mission phase controls"></div>
+            </aside>
+
+            <aside class="right-hud panel">
+                <p class="eyebrow">Vitals</p>
+                <div class="vitals" id="vitals"></div>
+            </aside>
+
+            <section class="bottom-hud">
+                <article class="panel ai-panel">
+                    <p class="eyebrow">AI Medical Warning</p>
+                    <h2 id="aiWarning">Acute cardiovascular load during launch.</h2>
+                    <p id="aiReasoning">Heart rate and blood pressure have spiked under launch stress.</p>
+                </article>
+
+                <article class="panel recommendation-panel">
+                    <p class="eyebrow">Recommendation</p>
+                    <p id="recommendation">Monitor heart rate and blood pressure every cycle. Keep Adam seated, secured, and coached through breathing commands.</p>
+                </article>
+            </section>
+
+            <div class="body-hud" aria-label="Body risk HUD">
+                <div class="body-map">
+                    <span class="body-zone head" data-zone="head"></span>
+                    <span class="body-zone chest" data-zone="chest"></span>
+                    <span class="body-zone spine" data-zone="spine"></span>
+                    <span class="body-zone pelvis" data-zone="pelvis"></span>
+                    <span class="body-zone legs" data-zone="legs"></span>
+                </div>
+                <p id="bodyHint">Chest and spine load detected</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="demo.js"></script>
+</body>
+</html>

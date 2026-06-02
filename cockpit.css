@@ -1,0 +1,261 @@
+/* ============================================================
+   COCKPIT MODE — immersive spaceship cockpit overlay
+   Loaded after style.css to override the classic layout.
+   ============================================================ */
+body.cockpit-body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    color: #d6ecff;
+    background: #02040a;
+}
+
+body.cockpit-body::before { content: none; display: none; }
+
+.cockpit {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+
+.cockpit-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: url("assets/cockpit.png") center center / cover no-repeat;
+    transform-origin: center 55%;
+    animation: shipSway 22s ease-in-out infinite;
+}
+
+@keyframes shipSway {
+    0%, 100% { transform: scale(1.045) translate(0, 0); }
+    50% { transform: scale(1.075) translate(-6px, 4px); }
+}
+
+/* Animated stars drifting inside the cockpit window */
+.window-space {
+    position: absolute;
+    z-index: 2;
+    top: 4%;
+    left: 14%;
+    width: 72%;
+    height: 35%;
+    pointer-events: none;
+    opacity: 0.85;
+    -webkit-mask-image: radial-gradient(ellipse 70% 78% at 50% 42%, #000 52%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 78% at 50% 42%, #000 52%, transparent 100%);
+}
+
+.window-glow {
+    position: absolute;
+    z-index: 2;
+    top: 4%;
+    left: 14%;
+    width: 72%;
+    height: 35%;
+    pointer-events: none;
+    background: radial-gradient(ellipse 60% 55% at 50% 70%, rgba(120, 170, 230, 0.16), transparent 70%);
+    animation: windowPulse 8s ease-in-out infinite;
+}
+
+@keyframes windowPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.95; }
+}
+
+.cockpit-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 90% 80% at 50% 45%, transparent 52%, rgba(2, 4, 10, 0.55) 100%),
+        linear-gradient(180deg, rgba(2, 4, 10, 0.35), transparent 18%, transparent 78%, rgba(2, 4, 10, 0.55));
+}
+
+/* ---------- Holographic HUD panels ---------- */
+.hud {
+    position: absolute;
+    z-index: 5;
+    padding: 12px 14px;
+    border: 1px solid rgba(120, 200, 255, 0.34);
+    border-radius: 9px;
+    background: linear-gradient(180deg, rgba(9, 23, 44, 0.66), rgba(4, 12, 26, 0.74));
+    box-shadow: 0 0 26px rgba(40, 120, 200, 0.16), inset 0 0 26px rgba(20, 70, 130, 0.22);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    color: #d6ecff;
+    overflow: hidden;
+    animation: hudIn 600ms ease both;
+}
+
+@keyframes hudIn {
+    from { opacity: 0; transform: translateY(8px); }
+}
+
+.hud::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(120, 200, 255, 0.05) 0 1px, transparent 1px 3px);
+    opacity: 0.5;
+    animation: scan 6s linear infinite;
+}
+
+@keyframes scan {
+    from { background-position-y: 0; }
+    to { background-position-y: 60px; }
+}
+
+.hud-bracket {
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(120, 200, 255, 0.16);
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.hud-eyebrow {
+    display: block;
+    color: #6fd0ff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(80, 180, 255, 0.5);
+}
+
+.hud-head { margin-bottom: 8px; }
+.hud-head h2 { margin: 2px 0 0; font-size: 0.96rem; color: #eaf6ff; }
+
+/* ---- Top bar ---- */
+.hud-top {
+    top: 1.4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 63%;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 8px 16px;
+}
+.hud-top h1 { margin: 2px 0 0; font-size: 1.05rem; color: #f4fbff; text-shadow: 0 0 10px rgba(80, 180, 255, 0.4); }
+.top-block { min-width: 0; }
+.hud-top h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 22ch; }
+.top-center { flex: 1; min-width: 0; }
+.top-center strong {
+    display: block; color: #cfe8ff; font-size: 0.92rem; font-weight: 700; line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.top-status { display: flex; align-items: center; gap: 12px; }
+.status-chip, .hud .api-status {
+    display: flex; align-items: center; gap: 8px; padding: 5px 10px;
+    border: 1px solid rgba(120, 200, 255, 0.22); border-radius: 6px; background: rgba(4, 12, 26, 0.5);
+}
+.status-chip strong, .hud .api-status strong { font-size: 0.84rem; color: #eaf6ff; }
+.hud .api-status span:not(.api-status-light) { color: #8fb6d8; }
+
+.sim-controls { display: flex; align-items: center; gap: 8px; }
+.sim-btn {
+    display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 999px;
+    border: 1px solid rgba(111, 208, 255, 0.5); color: #eaf6ff; background: rgba(40, 110, 180, 0.25);
+    font: inherit; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    transition: background 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+.sim-btn:hover { background: rgba(60, 150, 230, 0.4); box-shadow: 0 0 16px rgba(80, 180, 255, 0.4); transform: translateY(-1px); }
+.sim-btn.is-playing { border-color: rgba(65, 220, 140, 0.6); background: rgba(40, 160, 100, 0.3); }
+.sim-progress { width: 70px; height: 5px; border-radius: 999px; background: rgba(120, 200, 255, 0.18); overflow: hidden; }
+.sim-progress span { display: block; width: 0%; height: 100%; background: linear-gradient(90deg, #4aa8ff, #aee0ff); transition: width 120ms linear; }
+
+/* ---- Left vitals ---- */
+.hud-left { top: 13.5%; left: 1.2%; width: 21.5%; max-height: 72%; display: flex; flex-direction: column; }
+.cockpit .vital-grid { grid-template-columns: 1fr; gap: 6px; overflow-y: auto; padding-right: 4px; }
+.cockpit .vital-card {
+    display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto;
+    align-items: center; gap: 0 8px; min-height: 0; padding: 7px 10px;
+    border-radius: 6px; border-left-width: 3px; background: rgba(7, 18, 34, 0.6);
+}
+.cockpit .vital-card h3 { grid-column: 1; grid-row: 1; margin: 0; font-size: 0.58rem; color: #8fb6d8; }
+.cockpit .vital-card strong { grid-column: 1; grid-row: 2; margin: 0; font-size: 1.02rem; }
+.cockpit .vital-card p { display: none; }
+.cockpit .vital-card .risk-badge { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+
+/* ---- Right AI / condition ---- */
+.hud-right { top: 13.5%; right: 1.2%; width: 22%; max-height: 72%; display: flex; flex-direction: column; }
+.hud-scroll { overflow-y: auto; display: grid; gap: 10px; padding-right: 4px; }
+.cockpit .ai-risk-header, .cockpit .ai-risk-list div, .cockpit .chat-message, .cockpit .reco-block {
+    border: 1px solid rgba(120, 200, 255, 0.18); border-radius: 6px; background: rgba(5, 14, 28, 0.55);
+}
+.cockpit .ai-risk-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; }
+.cockpit .ai-risk-header span { color: #8fb6d8; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
+.cockpit .ai-risk-list { display: grid; gap: 7px; margin: 0; }
+.cockpit .ai-risk-list div { padding: 8px 10px; }
+.cockpit .ai-risk-list dt { margin: 0 0 3px; color: #8fb6d8; font-size: 0.58rem; font-weight: 700; text-transform: uppercase; }
+.cockpit .ai-risk-list dd { margin: 0; color: #cfe3f5; font-size: 0.74rem; line-height: 1.45; }
+.reco-block { padding: 8px 10px; }
+.reco-block p { margin: 4px 0 0; color: #cfe3f5; font-size: 0.74rem; line-height: 1.5; }
+.cockpit .chat-message { padding: 8px 10px; background: rgba(5, 14, 28, 0.55); }
+.cockpit .chat-message span { display: block; margin-bottom: 4px; color: #6fd0ff; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
+.cockpit .chat-message p { margin: 0; color: #cfe3f5; font-size: 0.76rem; line-height: 1.5; }
+.cockpit .chatbot-panel.active { border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(217, 130, 59, 0.5); }
+.cockpit .chatbot-panel.active .chat-message { background: rgba(217, 130, 59, 0.12); border-color: rgba(217, 130, 59, 0.4); }
+
+/* ---- Center body hologram ---- */
+.hud-center {
+    bottom: 22.5%; left: 50%; transform: translateX(-50%);
+    width: 19.5%; min-width: 200px; text-align: center;
+    background: linear-gradient(180deg, rgba(9, 23, 44, 0.5), rgba(4, 12, 26, 0.62));
+}
+.center-head { margin-bottom: 4px; }
+.center-head h2 { font-size: 0.86rem; }
+.cockpit .body-simulation { background: transparent; background-image: none; border: none; min-height: 0; padding: 0; display: block; }
+.cockpit .body-schematic { width: 100%; min-height: 0; height: auto; max-height: 26vh; filter: drop-shadow(0 0 7px rgba(90, 180, 255, 0.55)); }
+.cockpit .body-zone circle, .cockpit .body-zone path { fill: rgba(90, 180, 255, 0.08); stroke: rgba(120, 200, 255, 0.5); }
+.cockpit .body-reference line, .cockpit .body-reference path, .cockpit .body-reference ellipse { stroke: rgba(120, 200, 255, 0.18); }
+.cockpit .radiation-alert { margin-top: 8px; font-size: 0.72rem; }
+
+/* ---- Console chart ---- */
+.hud-chart { bottom: 24%; left: 25.5%; width: 17.5%; }
+.cockpit .chart {
+    grid-template-columns: repeat(8, 1fr); min-height: 0; height: 13vh; gap: 4px;
+    padding: 8px 8px 4px; background: rgba(4, 12, 26, 0.35); border-color: rgba(120, 200, 255, 0.16);
+}
+.cockpit .chart-item { grid-template-rows: 14px 1fr auto; gap: 3px; }
+.cockpit .chart-value { font-size: 0.55rem; }
+.cockpit .chart-bar { width: min(100%, 18px); }
+.cockpit .chart-label { min-height: 22px; font-size: 0.46rem; line-height: 1.15; }
+
+/* ---- Console ECG ---- */
+.hud-ecg { bottom: 24%; right: 25.5%; width: 17.5%; padding: 8px 10px; }
+.cockpit .ecg-monitor { margin: 0; border: none; padding: 0; background: transparent; gap: 10px; }
+.cockpit .ecg-canvas { height: 60px; }
+.cockpit .ecg-readout { padding-left: 10px; border-color: rgba(120, 200, 255, 0.2); }
+.cockpit .ecg-readout strong { font-size: 1.2rem; }
+.cockpit .ecg-readout span { font-size: 0.56rem; color: #8fb6d8; }
+
+/* ---- Bottom phase deck ---- */
+.hud-deck { bottom: 1.4%; left: 50%; transform: translateX(-50%); width: 72%; padding: 8px 12px; }
+.cockpit .phase-buttons { display: flex; gap: 5px; }
+.cockpit .phase-buttons button {
+    flex: 1; min-height: 0; padding: 7px 4px; font-size: 0.6rem; line-height: 1.2; text-align: center;
+    border-radius: 5px; color: #9fc4e4; background: rgba(7, 18, 34, 0.7); border: 1px solid rgba(120, 200, 255, 0.18);
+}
+.cockpit .phase-buttons button:hover { color: #eaf6ff; border-color: rgba(120, 200, 255, 0.45); background: rgba(20, 50, 90, 0.7); }
+.cockpit .phase-buttons button.active {
+    color: #f4fbff; background: rgba(40, 110, 180, 0.55);
+    border-color: rgba(111, 208, 255, 0.7); box-shadow: inset 0 2px 0 #6fd0ff, 0 0 14px rgba(80, 180, 255, 0.35);
+}
+
+.cockpit .dashboard-error { display: none; }
+.cockpit .status-dot { width: 11px; height: 11px; }
+
+.hud-scroll::-webkit-scrollbar, .cockpit .vital-grid::-webkit-scrollbar { width: 6px; }
+.hud-scroll::-webkit-scrollbar-thumb, .cockpit .vital-grid::-webkit-scrollbar-thumb { background: rgba(120, 200, 255, 0.3); border-radius: 3px; }
+
+@media (max-width: 1100px) {
+    .hud-top { width: 96%; flex-wrap: wrap; gap: 8px; }
+    .hud-left, .hud-right { width: 30%; }
+    .hud-chart, .hud-ecg { display: none; }
+    .hud-center { width: 30%; }
+}
